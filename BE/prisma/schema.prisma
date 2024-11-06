@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // binaryTargets = ["native", "rhel-openssl-3.0.x"] // komentari jika menggunakan database local
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // directUrl = env("DIRECT_URL") // komentari jika menggunakan database local
+}
+
+enum ROLE {
+  mahasiswa
+  sekdos
+  dosen
+}
+
+model User {
+  id       String @id @default(uuid())
+  identity String @unique
+  name     String
+  phone    String @unique
+  password String
+  role     ROLE   @default(mahasiswa)
+
+  // Relationships
+  classes        Classes[]
+  StudentClasses StudentClasses[]
+
+  @@map("users")
+}
+
+model Major {
+  id         String @id @default(uuid())
+  name       String
+  major_code String @unique
+
+  // Relationships
+  classes Classes[]
+
+  @@map("majors")
+}
+
+model Classes {
+  id               String @id @default(uuid())
+  major_id         String
+  lecturer_id      String
+  school_year_type String
+  school_year      String
+  subject          String
+  college_level    String
+  class_number     String
+  name             String
+
+  // Relationships
+  major           Major            @relation(fields: [major_id], references: [id])
+  lecturer        User?            @relation(fields: [lecturer_id], references: [id])
+  student_classes StudentClasses[]
+  class_meets     ClassMeets[]
+
+  @@map("classes")
+}
+
+model StudentClasses {
+  id         String @id @default(uuid())
+  student_id String
+  class_id   String
+
+  // Relationships
+  students          User              @relation(fields: [student_id], references: [id])
+  class             Classes           @relation(fields: [class_id], references: [id])
+  student_presences StudentPresence[]
+
+  @@map("student_classes")
+}
+
+model ClassMeets {
+  id          String   @id @default(uuid())
+  class_id    String
+  meet_number Int
+  created_at  DateTime @default(now())
+
+  // Relationships
+  class             Classes           @relation(fields: [class_id], references: [id])
+  student_presences StudentPresence[]
+
+  @@map("class_meets")
+}
+
+model StudentPresence {
+  id               String   @id @default(uuid())
+  student_class_id String
+  class_meet_id    String
+  created_at       DateTime @default(now())
+
+  // Relationships
+  student_class StudentClasses @relation(fields: [student_class_id], references: [id])
+  class_meet    ClassMeets     @relation(fields: [class_meet_id], references: [id])
+
+  @@map("student_presence")
+}
