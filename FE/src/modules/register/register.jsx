@@ -2,11 +2,13 @@
 import React, { useEffect, useState } from "react";
 import * as faceapi from "face-api.js";
 import { FaceModal } from "./face-modal";
-import { fetchRegister } from "../../API/auth";
-import { Link } from "react-router-dom";
+import { fetchProfile, fetchRegister } from "../../API/auth";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export const Register = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     identity: "",
@@ -15,6 +17,27 @@ export const Register = () => {
   });
   const [face, setFace] = useState();
   const [modelIsLoaded, setModelsLoaded] = useState(false);
+
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const redirect = async () => {
+      try {
+        const response = await fetchProfile(token);
+
+        navigate(`/${response.data.data.role}/`);
+      } catch (e) {
+        console.log(e);
+        if (e.response.status === 401) {
+          localStorage.clear();
+          window.location.href = "/login";
+        }
+      }
+    };
+    if (token) {
+      redirect();
+    }
+  });
 
   useEffect(() => {
     const loadModels = async () => {
@@ -26,7 +49,9 @@ export const Register = () => {
       setModelsLoaded(true);
       console.log("ok");
     };
-    loadModels();
+    if (!token) {
+      loadModels();
+    }
   }, []);
 
   const handleChange = (e) => {

@@ -1,15 +1,29 @@
 const { PrismaClient } = require("@prisma/client");
-const UserSeeder = require("./user-seed");
-const PackageSeed = require("./payments-seed");
+const { UsersSeeder } = require("./users.seeders");
+const { MajorsSeeders } = require("./majors.seeders");
+const { ClassesSeeders } = require("./classes.seeders");
+const { MyClassesSeeders } = require("./myclasses.seeders");
 const prisma = new PrismaClient();
 
 async function main() {
-  const createUser = await UserSeeder();
-  const createPackage = await PackageSeed();
+  await reset();
 
-  console.log(createUser);
-  console.log(createPackage);
+  const createUser = await UsersSeeder();
+  const createMajor = await MajorsSeeders();
+
+  const createClasses = await ClassesSeeders(createMajor, createUser);
+  await MyClassesSeeders(createUser, createClasses);
 }
+
+async function reset() {
+  await prisma.user.deleteMany();
+  await prisma.major.deleteMany();
+  await prisma.classes.deleteMany();
+  await prisma.studentClasses.deleteMany();
+  await prisma.studentPresence.deleteMany();
+  await prisma.classMeets.deleteMany();
+}
+
 main()
   .then(async () => {
     await prisma.$disconnect();

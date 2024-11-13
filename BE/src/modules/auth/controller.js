@@ -48,18 +48,7 @@ class AuthController {
 
   profile = async (req, res, next) => {
     try {
-      const [client, db] = await mongoClient();
-
-      const userFaces = await db.collection("faces").findOne({ user_id: req.user_data.id });
-
-      return res.status(200).json({
-        status: true,
-        message: "OK",
-        data: {
-          ...req.user_data,
-          faces: userFaces.faces,
-        },
-      });
+      return response(res, 200, req.user_data, "Berhasil mendapatkan data profile");
     } catch (e) {
       next(e);
     }

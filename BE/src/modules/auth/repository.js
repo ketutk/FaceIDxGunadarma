@@ -1,32 +1,35 @@
 const { PrismaClient, ROLE } = require("@prisma/client");
 const { mongoClient } = require("../../config/mongo.config");
-const prisma = new PrismaClient();
-
+const { prismaConnect } = require("../../libs/prisma.helper");
 class AuthRepository {
   async checkDuplicate(identity, phone) {
-    return await Promise.all([
-      prisma.user.findUnique({
-        where: {
-          identity: identity,
-        },
-      }),
-      prisma.user.findUnique({
-        where: {
-          phone: phone,
-        },
-      }),
-    ]);
+    return await prismaConnect(async (prisma) => {
+      return await Promise.all([
+        prisma.user.findUnique({
+          where: {
+            identity: identity,
+          },
+        }),
+        prisma.user.findUnique({
+          where: {
+            phone: phone,
+          },
+        }),
+      ]);
+    });
   }
 
   async register(data) {
-    return prisma.user.create({
-      data: {
-        identity: data.identity,
-        name: data.name,
-        phone: data.phone,
-        password: data.password,
-        role: ROLE.mahasiswa,
-      },
+    return await prismaConnect(async (prisma) => {
+      return prisma.user.create({
+        data: {
+          identity: data.identity,
+          name: data.name,
+          phone: data.phone,
+          password: data.password,
+          role: ROLE.mahasiswa,
+        },
+      });
     });
   }
 
@@ -40,7 +43,9 @@ class AuthRepository {
   }
 
   async getUserByIdentity(identity) {
-    return await prisma.user.findFirst({ where: { identity } });
+    return await prismaConnect(async (prisma) => {
+      return await prisma.user.findFirst({ where: { identity } });
+    });
   }
 }
 

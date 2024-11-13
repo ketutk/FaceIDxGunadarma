@@ -1,6 +1,6 @@
 // RegisterPage.jsx
 import React, { useEffect, useState } from "react";
-import { fetchLogin } from "../../API/auth";
+import { fetchLogin, fetchProfile } from "../../API/auth";
 import { Link, redirect, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -10,6 +10,26 @@ export const Login = () => {
   const [formData, setFormData] = useState({
     identity: "",
     password: "",
+  });
+
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const redirect = async () => {
+      try {
+        const response = await fetchProfile(token);
+
+        navigate(`/${response.data.data.role}/`);
+      } catch (e) {
+        if (e.response.status === 401) {
+          localStorage.clear();
+          window.location.href = "/login";
+        }
+      }
+    };
+    if (token) {
+      redirect();
+    }
   });
 
   const handleChange = (e) => {

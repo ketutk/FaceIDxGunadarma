@@ -8,3 +8,11 @@ export async function fetchRegister(data) {
 export async function fetchLogin(data) {
   return await axios.post(`${URL}/auth/login`, data);
 }
+
+export async function fetchProfile(token) {
+  return await axios.get(`${URL}/auth/profile`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}

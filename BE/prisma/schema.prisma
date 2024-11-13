@@ -48,7 +48,7 @@ model Major {
 }
 
 model Classes {
-  id               String @id @default(uuid())
+  id               String   @id @default(uuid())
   major_id         String
   lecturer_id      String
   school_year_type String
@@ -57,10 +57,11 @@ model Classes {
   college_level    String
   class_number     String
   name             String
+  created_at       DateTime @default(now())
 
   // Relationships
-  major           Major            @relation(fields: [major_id], references: [id])
-  lecturer        User?            @relation(fields: [lecturer_id], references: [id])
+  major           Major            @relation(fields: [major_id], references: [id], onDelete: Cascade)
+  lecturer        User?            @relation(fields: [lecturer_id], references: [id], onDelete: Cascade)
   student_classes StudentClasses[]
   class_meets     ClassMeets[]
 
@@ -68,13 +69,14 @@ model Classes {
 }
 
 model StudentClasses {
-  id         String @id @default(uuid())
+  id         String   @id @default(uuid())
   student_id String
   class_id   String
+  created_at DateTime @default(now())
 
   // Relationships
-  students          User              @relation(fields: [student_id], references: [id])
-  class             Classes           @relation(fields: [class_id], references: [id])
+  students          User              @relation(fields: [student_id], references: [id], onDelete: Cascade)
+  class             Classes           @relation(fields: [class_id], references: [id], onDelete: Cascade)
   student_presences StudentPresence[]
 
   @@map("student_classes")
@@ -87,7 +89,7 @@ model ClassMeets {
   created_at  DateTime @default(now())
 
   // Relationships
-  class             Classes           @relation(fields: [class_id], references: [id])
+  class             Classes           @relation(fields: [class_id], references: [id], onDelete: Cascade)
   student_presences StudentPresence[]
 
   @@map("class_meets")
@@ -100,8 +102,8 @@ model StudentPresence {
   created_at       DateTime @default(now())
 
   // Relationships
-  student_class StudentClasses @relation(fields: [student_class_id], references: [id])
-  class_meet    ClassMeets     @relation(fields: [class_meet_id], references: [id])
+  student_class StudentClasses @relation(fields: [student_class_id], references: [id], onDelete: Cascade)
+  class_meet    ClassMeets     @relation(fields: [class_meet_id], references: [id], onDelete: Cascade)
 
   @@map("student_presence")
 }
