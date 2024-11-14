@@ -16,3 +16,11 @@ export async function fetchProfile(token) {
     },
   });
 }
+
+export async function fetchChangePassword(token, data) {
+  return await axios.put(`${URL}/auth/change/password`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}

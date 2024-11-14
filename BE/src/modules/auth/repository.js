@@ -33,6 +33,19 @@ class AuthRepository {
     });
   }
 
+  async changePassword(user_id, hashedPassword) {
+    return await prismaConnect(async (prisma) => {
+      return await prisma.user.update({
+        where: {
+          id: user_id,
+        },
+        data: {
+          password: hashedPassword,
+        },
+      });
+    });
+  }
+
   async createFaceDescriptor(user_id, face) {
     const [client, db] = await mongoClient();
 

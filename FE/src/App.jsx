@@ -10,6 +10,7 @@ import { DashboardMahasiswa } from "./modules/dashboard/dashboard-mahasiswa";
 import { NavbarMahasiswa } from "./templates/navbar-mahasiswa";
 import { initFlowbite } from "flowbite";
 import { NotFound } from "./modules/forbiddern/notfound";
+import { Profile } from "./modules/profile/profile";
 
 export default function App() {
   initFlowbite();
@@ -23,6 +24,7 @@ export default function App() {
 
           {/* Mahasiswa */}
           <Route path="/mahasiswa/" element={<NavbarMahasiswa component={DashboardMahasiswa} />} />
+          <Route path="/mahasiswa/profile" element={<NavbarMahasiswa component={Profile} />} />
 
           <Route path="/*" element={<NotFound />} />
         </Routes>

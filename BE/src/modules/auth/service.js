@@ -56,6 +56,18 @@ class AuthService {
       throw e;
     }
   }
+
+  async changePassword(data) {
+    const { new_password, confirm_password, user } = data;
+
+    if (new_password !== confirm_password) {
+      throwError(400, "Kedua password baru yang diberikan tidak sesuai");
+    }
+
+    const hashedPassword = bcrypt.hashSync(new_password, 10);
+
+    return await this.authRepo.changePassword(user.id, hashedPassword);
+  }
 }
 
 module.exports = AuthService;

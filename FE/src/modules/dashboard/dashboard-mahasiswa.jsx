@@ -15,7 +15,6 @@ export const DashboardMahasiswa = ({ user, token }) => {
       try {
         const response = await fetchMyClasses(token);
 
-        console.log(response.data.data);
         setClasses(response.data.data);
       } catch (e) {
         toast.error(e.response.data.message);
