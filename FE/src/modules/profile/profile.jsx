@@ -7,6 +7,7 @@ export const Profile = ({ user, token }) => {
     new_password: "",
     confirm_password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,8 +20,9 @@ export const Profile = ({ user, token }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (password.new_password !== password.confirm_password) toast.error("Kedua password baru tidak sama");
+    if (password.new_password !== password.confirm_password) return toast.error("Kedua password baru tidak sama");
 
+    setIsLoading(true);
     try {
       const response = await fetchChangePassword(token, password);
       handleReset();
@@ -33,6 +35,8 @@ export const Profile = ({ user, token }) => {
       } else {
         toast.error(e.response.data.message);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -76,8 +80,8 @@ export const Profile = ({ user, token }) => {
                 <label className="block text-gray-700">Masukkan Ulang Password Baru</label>
                 <input type="password" name="confirm_password" className="w-full p-2 border border-gray-300 rounded" required value={password.confirm_password} onChange={handleChange} />
               </div>
-              <button type="submit" className="w-full bg-purple-700 text-white p-2 rounded hover:bg-purple-800">
-                Daftar sebagai Mahasiswa
+              <button type="submit" className="w-full bg-purple-700 text-white p-2 rounded hover:bg-purple-800" disabled={isLoading}>
+                {isLoading ? "Mohon tunggu..." : "Ganti Password"}
               </button>
             </form>
           </div>

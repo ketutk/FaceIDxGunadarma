@@ -1,7 +1,12 @@
 const { PrismaClient, ROLE } = require("@prisma/client");
-const prisma = new PrismaClient();
 
-exports.ClassesSeeders = async (major, users) => {
+/**
+ *
+ * @param {PrismaClient} prisma
+ * @returns
+ */
+
+exports.ClassesSeeders = async (prisma, major, users) => {
   return new Promise(async (resolve, reject) => {
     const datas = [
       {

@@ -71,7 +71,7 @@ export const NavbarMahasiswa = ({ component: Component }) => {
               </Link>
             </li>
             <li>
-              <a href="#" class="flex items-center p-2 text-white rounded-lg hover:text-black hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              <Link to={"/mahasiswa/kelas"} class="flex items-center p-2 text-white rounded-lg hover:text-black hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <svg
                   class="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                   aria-hidden="true"
@@ -89,7 +89,7 @@ export const NavbarMahasiswa = ({ component: Component }) => {
                 </svg>
 
                 <span class="ms-3">Kelas</span>
-              </a>
+              </Link>
             </li>
             <li>
               <Link to={"/mahasiswa/profile"} class="flex items-center p-2 text-white rounded-lg hover:text-black hover:bg-gray-100 dark:hover:bg-gray-700 group">

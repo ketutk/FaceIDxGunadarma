@@ -3,16 +3,20 @@ const { UsersSeeder } = require("./users.seeders");
 const { MajorsSeeders } = require("./majors.seeders");
 const { ClassesSeeders } = require("./classes.seeders");
 const { MyClassesSeeders } = require("./myclasses.seeders");
+const { ClassesMeetSeeders } = require("./studentmeets.seeders");
+const { StudentPresencesSeeders } = require("./studentpresences.seeders");
 const prisma = new PrismaClient();
 
 async function main() {
   await reset();
 
-  const createUser = await UsersSeeder();
-  const createMajor = await MajorsSeeders();
+  const createUser = await UsersSeeder(prisma);
+  const createMajor = await MajorsSeeders(prisma);
 
-  const createClasses = await ClassesSeeders(createMajor, createUser);
-  await MyClassesSeeders(createUser, createClasses);
+  const createClasses = await ClassesSeeders(prisma, createMajor, createUser);
+  const classMeets = await ClassesMeetSeeders(prisma, createClasses);
+  const studentClasses = await MyClassesSeeders(prisma, createUser, createClasses);
+  await StudentPresencesSeeders(prisma, studentClasses, classMeets);
 }
 
 async function reset() {

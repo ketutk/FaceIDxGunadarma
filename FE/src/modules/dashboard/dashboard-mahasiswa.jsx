@@ -1,8 +1,8 @@
 import { redirect, useNavigate } from "react-router-dom";
-import { LiteCard, MainCard } from "./cards";
+import { LiteCard, MainCard } from "../../templates/cards";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { fetchMyClasses } from "../../API/classes";
+import { fetchNewestUserClasses } from "../../API/classes";
 
 export const DashboardMahasiswa = ({ user, token }) => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ export const DashboardMahasiswa = ({ user, token }) => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const response = await fetchMyClasses(token);
+        const response = await fetchNewestUserClasses(token);
 
         setClasses(response.data.data);
       } catch (e) {
@@ -30,7 +30,7 @@ export const DashboardMahasiswa = ({ user, token }) => {
         <h1 className="font-light text-2xl mb-3">Dashboard Mahasiswa</h1>
 
         <div className="flex flex-col lg:flex-row lg:flex-wrap lg:mt-3 gap-x-4 gap-y-4 w-full">
-          <MainCard title={"Lihat Kelas"} subtitle={"Lihat kelas yang sudah anda ikuti untuk melihat data presensi anda."} link={"/mahasiswa/kelas/my"} linkTitle={"Lihat Kelas"} />
+          <MainCard title={"Lihat Kelas"} subtitle={"Lihat kelas yang sudah anda ikuti untuk melihat data presensi anda."} link={"/mahasiswa/kelas"} linkTitle={"Lihat Kelas"} />
         </div>
       </div>
       <div className="border border-gray-200 bg-white p-6 w-full mt-4">
@@ -39,13 +39,13 @@ export const DashboardMahasiswa = ({ user, token }) => {
         <div className="flex flex-col lg:flex-row lg:flex-wrap lg:mt-3 gap-x-4 gap-y-4 w-full">
           {!isLoading && classes ? (
             classes.map((item) => {
-              return <LiteCard title={item?.class?.name} subtitle={`${item?.class?.major?.name} (${item?.class?.major?.major_code})`} link={`/mahasiswa/kelas/${item?.id}`} linkTitle={"Lihat Kelas"} />;
+              return <LiteCard title={item?.class?.name} subtitle={`${item?.class?.major?.name} (${item?.class?.major?.major_code})`} link={`/mahasiswa/kelas/${item?.class?.id}`} linkTitle={"Lihat Kelas"} />;
             })
           ) : (
             <>
-              <LiteCard title={"PTA 2023/2024 Praktikum Robotika"} subtitle={"Sistem Informasi (KA)"} link={"/mahasiswa/kelas/asdad"} linkTitle={"Lihat Kelas"} />
-              <LiteCard title={"PTA 2023/2024 Team Teaching Pelajaran Biologi"} subtitle={"Sistem Informasi (KA)"} link={"/mahasiswa/kelas/asdad"} linkTitle={"Lihat Kelas"} />
-              <LiteCard title={"PTA 2023/2024 Team Teaching Pelajaran Biologi"} subtitle={"Sistem Informasi (KA)"} link={"/mahasiswa/kelas/asdad"} linkTitle={"Lihat Kelas"} />
+              <LiteCard title={"PTA 2023/2024 Praktikum Robotika"} subtitle={"Sistem Informasi (KA)"} link={"/mahasiswa/class"} linkTitle={"Lihat Kelas"} />
+              <LiteCard title={"PTA 2023/2024 Team Teaching Pelajaran Biologi"} subtitle={"Sistem Informasi (KA)"} link={"/mahasiswa/class"} linkTitle={"Lihat Kelas"} />
+              <LiteCard title={"PTA 2023/2024 Team Teaching Pelajaran Biologi"} subtitle={"Sistem Informasi (KA)"} link={"/mahasiswa/class"} linkTitle={"Lihat Kelas"} />
             </>
           )}
         </div>

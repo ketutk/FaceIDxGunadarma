@@ -6,6 +6,12 @@ const router = express.Router();
 
 const classesController = new ClassesController();
 
-router.get("/my", middleware, authorize([ROLE.mahasiswa]), classesController.getMyClasses);
+router.post("/join/:id", middleware, authorize([ROLE.mahasiswa]), classesController.joinClasses);
+router.get("/all", middleware, classesController.getAllClasses);
+
+// Mahasiswa
+router.get("/my", middleware, authorize([ROLE.mahasiswa]), classesController.getAllMyClasses);
+router.get("/my/new", middleware, authorize([ROLE.mahasiswa]), classesController.getNewestUserClasses);
+router.get("/:id", middleware, authorize([ROLE.mahasiswa]), classesController.getMahasiswaDetailClassesById);
 
 module.exports = router;

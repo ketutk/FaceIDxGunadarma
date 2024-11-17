@@ -11,6 +11,8 @@ import { NavbarMahasiswa } from "./templates/navbar-mahasiswa";
 import { initFlowbite } from "flowbite";
 import { NotFound } from "./modules/forbiddern/notfound";
 import { Profile } from "./modules/profile/profile";
+import { MahasiswaClasses } from "./modules/classes/mahasiswa/mahasiswa-classes";
+import { MahasiswaDetailClasses } from "./modules/classes/mahasiswa/mahasiswa-detail-class";
 
 export default function App() {
   initFlowbite();
@@ -25,6 +27,8 @@ export default function App() {
           {/* Mahasiswa */}
           <Route path="/mahasiswa/" element={<NavbarMahasiswa component={DashboardMahasiswa} />} />
           <Route path="/mahasiswa/profile" element={<NavbarMahasiswa component={Profile} />} />
+          <Route path="/mahasiswa/kelas" element={<NavbarMahasiswa component={MahasiswaClasses} />} />
+          <Route path="/mahasiswa/kelas/:id" element={<NavbarMahasiswa component={MahasiswaDetailClasses} />} />
 
           <Route path="/*" element={<NotFound />} />
         </Routes>
