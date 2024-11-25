@@ -1,10 +1,10 @@
 const z = require("zod");
 const { isNumericWord } = require("../../libs/regex");
 exports.registerSchema = z.object({
-  name: z.string().min(1),
+  name: z.string().min(1, { message: "Nama minimal terdiri dari 1 karakter" }),
   identity: z
     .string()
-    .min(1)
+    .min(8, { message: "NPM minimal mengandung 8 angka" })
     .max(8, { message: "NPM maksimal mengandung 8 angka" })
     .refine((e) => isNumericWord(e), {
       message: "Nomor Identitas hanya bisa mengandung angka",

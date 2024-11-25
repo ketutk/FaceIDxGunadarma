@@ -86,7 +86,7 @@ model StudentClasses {
 model ClassMeets {
   id          String   @id @default(uuid())
   class_id    String
-  meet_number Int
+  meet_number Int      @default(autoincrement())
   created_at  DateTime @default(now())
 
   // Relationships

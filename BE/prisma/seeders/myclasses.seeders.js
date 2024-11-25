@@ -11,7 +11,7 @@ exports.MyClassesSeeders = async (prisma, users, classes) => {
       const studentClasses = [];
       const student = users.find((user) => user.role == ROLE.mahasiswa);
 
-      classes.pop();
+      classes = classes.filter((item) => item.class_number == "29");
 
       for await (const data of classes) {
         const result = await prisma.studentClasses.create({

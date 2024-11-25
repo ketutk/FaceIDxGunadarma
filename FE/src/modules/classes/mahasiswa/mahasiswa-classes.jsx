@@ -18,7 +18,7 @@ export const MahasiswaClasses = ({ user, token }) => {
     const fetch = async () => {
       setIsLoading(true);
       try {
-        const response = await fetchAllMyClasses(token);
+        const response = await fetchAllMyClasses(token, data?.page);
 
         setData(response.data.data);
       } catch (e) {
@@ -28,7 +28,14 @@ export const MahasiswaClasses = ({ user, token }) => {
       }
     };
     fetch();
-  }, []);
+  }, [data.page]);
+
+  const onPageChange = (page) => {
+    setData((prevData) => ({
+      ...prevData,
+      page: page,
+    }));
+  };
 
   return (
     <>
@@ -48,13 +55,13 @@ export const MahasiswaClasses = ({ user, token }) => {
             })
           ) : (
             <>
-              <SimpleCard title={"PTA 2023/2024 Praktikum Robotika"} subtitle={"Sistem Informasi (KA)"} link={"/mahasiswa/class"} linkTitle={"Lihat Kelas"} />
-              <SimpleCard title={"PTA 2023/2024 Team Teaching Pelajaran Biologi"} subtitle={"Sistem Informasi (KA)"} link={"/mahasiswa/class"} linkTitle={"Lihat Kelas"} />
-              <SimpleCard title={"PTA 2023/2024 Team Teaching Pelajaran Biologi"} subtitle={"Sistem Informasi (KA)"} link={"/mahasiswa/class"} linkTitle={"Lihat Kelas"} />
+              <SimpleCard title={"PTA 2023/2024......"} subtitle={"Sistem Informasi...."} link={"#"} linkTitle={"Lihat Kelas"} />
+              <SimpleCard title={"PTA 2023/2024......"} subtitle={"Sistem Informasi...."} link={"#"} linkTitle={"Lihat Kelas"} />
+              <SimpleCard title={"PTA 2023/2024......"} subtitle={"Sistem Informasi...."} link={"#"} linkTitle={"Lihat Kelas"} />
             </>
           )}
         </div>
-        <Pagination currentPage={data.page} totalPages={data.total_page} />
+        <Pagination currentPage={data.page} totalPages={data.total_page} onPageChange={onPageChange} />
       </div>
     </>
   );

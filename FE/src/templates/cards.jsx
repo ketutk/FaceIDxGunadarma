@@ -52,12 +52,14 @@ export function LiteCard({ title, subtitle, link, linkTitle }) {
     fuchsia: "from-fuchsia-800 to-fuchsia-700",
   };
 
+  const [a, b, c, ...matkul] = title.split(" ");
+
   return (
     <div class="min-w-40 max-w-sm grow shrink bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <div className={`w-full min-h-32 bg-gradient-to-br ${gradientClasses[choosedColor]} ${gradientClasses[choosedColor]} rounded`}></div>
       <div class="p-5">
-        <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{subtitle}</h5>
-        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{title.length > 40 ? `${title.slice(0, 35)}..` : title}</p>
+        <h5 class="mb-2 text-xl font-light tracking-tight text-gray-900 dark:text-white">{`${a} ${b} ${c}`}</h5>
+        <p class="mb-3 text-lg font-semibold dark:text-gray-400">{matkul.join(" ")}</p>
         <Link
           to={link}
           class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -87,14 +89,15 @@ export function SimpleCard({ title, subtitle, link }) {
     fuchsia: "from-fuchsia-800 to-fuchsia-700",
   };
 
+  const [a, b, c, ...matkul] = title.split(" ");
+
   return (
     <Link to={link}>
-      <div class="lg:max-w-[22rem] grow bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <div class="lg:min-w-[22rem] grow bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div className={`w-full min-h-24 md:min-h-32 bg-gradient-to-br ${gradientClasses[choosedColor]} ${gradientClasses[choosedColor]} rounded`}></div>
         <div class="p-5">
-          <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{subtitle}</h5>
-          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 hover:underline lg:truncate">{title}</p>
-          {/* <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 hover:underline">{title.length > 40 ? `${title.slice(0, 35)}..` : title}</p> */}
+          <h5 class="mb-2 text-xl font-light dark:text-white">{`${a} ${b} ${c}`}</h5>
+          <p class="mb-3 font-semibold text-lg dark:text-gray-400 hover:underline lg:truncate">{matkul.join(" ")}</p>
         </div>
       </div>
     </Link>
