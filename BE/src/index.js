@@ -9,6 +9,7 @@ const fs = require("fs");
 const multer = require("multer");
 
 const indexRouter = require("./routes");
+const { LoadModels } = require("./libs/face-process");
 
 const app = express();
 const upload = multer();
@@ -21,6 +22,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(upload.none());
+
+LoadModels();
 
 // Route
 app.use("/api/v1", indexRouter);

@@ -21,3 +21,21 @@ exports.addClassSchema = z.object({
       message: "Kolom nomor kelas hanya bisa mengandung angka",
     }),
 });
+
+exports.addMeetSchema = z.object({
+  meet_start: z.string().refine((val) => !isNaN(new Date(val).getTime()), {
+    message: "Waktu pertemuan harus berupa tanggal dan waktu yang valid",
+  }),
+});
+
+exports.addPresenceSchema = z.object({
+  classes_id: z.string().min(1, {
+    message: "Id kelas tidak ditemukan",
+  }),
+  meet_id: z.string().min(1, {
+    message: "Id pertemuan tidak ditemukan",
+  }),
+  face: z.any().refine((val) => val && val !== null, {
+    message: "Data wajah tidak ditemukan",
+  }),
+});

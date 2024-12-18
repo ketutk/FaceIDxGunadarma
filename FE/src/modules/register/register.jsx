@@ -1,6 +1,5 @@
 // RegisterPage.jsx
 import React, { useEffect, useState } from "react";
-import * as faceapi from "face-api.js";
 import { FaceModal } from "./face-modal";
 import { fetchProfile, fetchRegister } from "../../API/auth";
 import { Link, useNavigate } from "react-router-dom";
@@ -38,21 +37,6 @@ export const Register = () => {
       redirect();
     }
   });
-
-  useEffect(() => {
-    const loadModels = async () => {
-      const MODEL_URL = `/models`;
-
-      await faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL);
-      await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
-      await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
-      setModelsLoaded(true);
-      console.log("ok");
-    };
-    if (!token) {
-      loadModels();
-    }
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -129,7 +113,7 @@ export const Register = () => {
           <div className="mb-4">
             <label className="block text-gray-700">Data Wajah</label>
             {face ? <p className="my-4 text-green-600">Data wajah telah disimpan</p> : <p className="text-red-700 my-3">Belum ada data wajah.</p>}
-            <FaceModal modelsLoaded={modelIsLoaded} setFaceDescriptor={setFace} faceapi={faceapi} />
+            <FaceModal modelsLoaded={modelIsLoaded} setFaceDescriptor={setFace} />
           </div>
 
           <button type="submit" className="w-full bg-purple-700 text-white p-2 rounded hover:bg-purple-800">

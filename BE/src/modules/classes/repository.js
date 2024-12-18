@@ -10,6 +10,27 @@ class ClassesRepository {
       });
     });
   }
+  async editClassesById(data, classes_id) {
+    return await prismaConnect(async (prisma) => {
+      return await prisma.classes.update({
+        where: {
+          id: classes_id,
+        },
+        data: {
+          ...data,
+        },
+      });
+    });
+  }
+  async deleteClassesById(classes_id) {
+    return await prismaConnect(async (prisma) => {
+      return await prisma.classes.delete({
+        where: {
+          id: classes_id,
+        },
+      });
+    });
+  }
   /**
    * @param {string} search
    * @param {string?} user_id
@@ -101,7 +122,7 @@ class ClassesRepository {
           m.id AS major_id, 
           m.name AS major_name, 
           m.major_code AS major_code,
-          MAX(cm.created_at) AS latest_meet_date
+          MAX(cm.meet_start) AS latest_meet_date
         FROM "classes" c
         JOIN "class_meets" cm ON c.id = cm."class_id"
         JOIN "majors" m ON c."major_id" = m.id
@@ -149,6 +170,41 @@ class ClassesRepository {
           _count: {
             select: {
               class_meets: true,
+            },
+          },
+          major: true,
+        },
+      });
+    });
+  }
+
+  async getDosenDetailClassesById(lecturer_id, classes_id) {
+    return await prismaConnect(async (prisma) => {
+      return await prisma.classes.findUnique({
+        where: {
+          lecturer_id: lecturer_id,
+          id: classes_id,
+        },
+        include: {
+          _count: {
+            select: {
+              class_meets: true,
+              student_classes: true,
+            },
+          },
+          class_meets: {
+            orderBy: {
+              meet_number: "asc",
+            },
+          },
+          student_classes: {
+            include: {
+              students: true,
+              _count: {
+                select: {
+                  student_presences: true,
+                },
+              },
             },
           },
           major: true,

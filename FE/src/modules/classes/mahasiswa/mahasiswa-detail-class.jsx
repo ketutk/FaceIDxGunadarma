@@ -95,7 +95,7 @@ export const MahasiswaDetailClasses = ({ user, token }) => {
                         {data?.student_class?.student_presences?.map((presence, index) => (
                           <tr key={presence.id} className="text-center">
                             <td className="border border-gray-200 p-2">{presence.class_meet.meet_number}</td>
-                            <td className="border border-gray-200 p-2">{formatDateIndonesia(presence.class_meet.created_at, true)}</td>
+                            <td className="border border-gray-200 p-2">{formatDateIndonesia(presence.class_meet.meet_start, true)}</td>
                             <td className="border border-gray-200 p-2">{formatDateIndonesia(presence.created_at, true)}</td>
                           </tr>
                         ))}

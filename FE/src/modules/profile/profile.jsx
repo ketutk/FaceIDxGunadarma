@@ -49,8 +49,8 @@ export const Profile = ({ user, token }) => {
   return (
     <>
       <div className=" w-full">
-        <div className="flex flex-col lg:flex-row gap-x-4">
-          <div className="basis-1/2 mt-3 border border-gray-200 bg-white p-6">
+        <div className="flex flex-col lg:flex-row gap-x-4 gap-y-4 lg:gap-y-0">
+          <div className="basis-1/2 border border-gray-200 bg-white p-6">
             <h1 className="font-light text-2xl mb-3">Profile</h1>
             <div className="mb-4">
               <label className="block text-gray-700">{user.role == "mahasiswa" ? "NPM" : "NIDN"}</label>
@@ -69,7 +69,7 @@ export const Profile = ({ user, token }) => {
               <input type="text" name="role" className="w-full p-2 border border-gray-300 rounded" disabled value={String(user?.role).charAt(0).toUpperCase() + String(user?.role).slice(1)} />
             </div>
           </div>
-          <div className="basis-1/2 mt-3 border border-gray-200 bg-white p-6">
+          <div className="basis-1/2 border border-gray-200 bg-white p-6">
             <h1 className="font-light text-2xl mb-3">Ganti Password</h1>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">

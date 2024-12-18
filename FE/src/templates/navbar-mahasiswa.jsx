@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, redirect, useNavigate } from "react-router-dom";
 import { fetchProfile } from "../API/auth";
+import Breadcrumb from "./breadcrumbs";
 
 export const NavbarMahasiswa = ({ component: Component }) => {
   const navigate = useNavigate();
@@ -130,7 +131,10 @@ export const NavbarMahasiswa = ({ component: Component }) => {
       </aside>
 
       <div class="p-4 sm:ml-64 bg-gray-100 min-h-screen">
-        <div class="p-4 rounded-lg ">{user && token && <Component user={user} token={token} />}</div>
+        <div class="p-4 rounded-lg ">
+          <Breadcrumb />
+          {user && token && <Component user={user} token={token} />}
+        </div>
       </div>
     </>
   );

@@ -49,9 +49,16 @@ class AuthRepository {
   async createFaceDescriptor(user_id, face) {
     const [client, db] = await mongoClient();
 
-    db.collection("faces").insertOne({
+    await db.collection("faces").insertOne({
       user_id: user_id,
       face: face,
+    });
+  }
+  async getFaceDescriptorByUserId(user_id) {
+    const [client, db] = await mongoClient();
+
+    return await db.collection("faces").findOne({
+      user_id: user_id,
     });
   }
 

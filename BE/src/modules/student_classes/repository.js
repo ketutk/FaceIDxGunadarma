@@ -113,6 +113,19 @@ class StudentClassesRepository {
       });
     });
   }
+
+  async getAllStudentClassesByClassesId(classes_id) {
+    return await prismaConnect(async (prisma) => {
+      return await prisma.studentClasses.findMany({
+        where: {
+          class_id: classes_id,
+        },
+        include: {
+          students: true,
+        },
+      });
+    });
+  }
 }
 
 module.exports = StudentClassesRepository;

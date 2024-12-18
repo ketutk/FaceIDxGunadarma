@@ -16,6 +16,8 @@ import { MahasiswaDetailClasses } from "./modules/classes/mahasiswa/mahasiswa-de
 import { DashboardDosen } from "./modules/dashboard/dashboard-dosen";
 import { NavbarDosen } from "./templates/navbar-dosen";
 import { DosenClasses } from "./modules/classes/dosen/dosen-classes";
+import { DosenDetailClasses } from "./modules/classes/dosen/dosen-detail-class";
+import { DosenClassesMeet } from "./modules/classes/dosen/dosen-meet";
 
 export default function App() {
   initFlowbite();
@@ -36,6 +38,8 @@ export default function App() {
           {/* Dosen */}
           <Route path="/dosen/" element={<NavbarDosen component={DashboardDosen} />} />
           <Route path="/dosen/kelas" element={<NavbarDosen component={DosenClasses} />} />
+          <Route path="/dosen/kelas/:id" element={<NavbarDosen component={DosenDetailClasses} />} />
+          <Route path="/dosen/kelas/:id/:idp" element={<NavbarDosen component={DosenClassesMeet} />} />
           <Route path="/dosen/profile" element={<NavbarDosen component={Profile} />} />
 
           <Route path="/*" element={<NotFound />} />
