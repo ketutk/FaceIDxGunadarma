@@ -2,7 +2,7 @@ const { PrismaClient, ROLE } = require("@prisma/client");
 const prisma = new PrismaClient();
 const { generateRandomString } = require("../../libs/randomString");
 const { mongoClient } = require("../../config/mongo.config");
-const { registerSchema, changePasswordSchema } = require("./validation");
+const { registerSchema, changePasswordSchema, registerDosenSchema } = require("./validation");
 const { simplifyZodError } = require("../../libs/zod");
 const { throwError, response } = require("../../libs/response");
 const AuthService = require("./service");
@@ -39,6 +39,25 @@ class AuthController {
       }
 
       const result = await this.authService.register(validate.data);
+
+      return response(res, 201, result, "Register berhasil");
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  registerDosen = async (req, res, next) => {
+    try {
+      const { name, identity, phone, password } = req.body;
+
+      const validate = registerDosenSchema.safeParse({ name, identity, phone, password });
+
+      if (!validate.success) {
+        const zodResponse = simplifyZodError(validate.error);
+        throwError(400, zodResponse);
+      }
+
+      const result = await this.authService.registerDosen(validate.data);
 
       return response(res, 201, result, "Register berhasil");
     } catch (error) {

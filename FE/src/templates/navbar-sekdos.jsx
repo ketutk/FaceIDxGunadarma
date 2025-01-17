@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, redirect, useNavigate } from "react-router-dom";
 import { fetchProfile } from "../API/auth";
-import { DosenBreadcrumb } from "./breadcrumbs";
+import { SekdosBreadcrumb } from "./breadcrumbs";
 import { initFlowbite } from "flowbite";
 
-export const NavbarDosen = ({ component: Component }) => {
+export const NavbarSekdos = ({ component: Component }) => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState();
@@ -18,7 +18,7 @@ export const NavbarDosen = ({ component: Component }) => {
     const fetch = async () => {
       try {
         const response = await fetchProfile(token);
-        if (response?.data?.data?.role !== "dosen") {
+        if (response?.data?.data?.role !== "sekdos") {
           navigate(`/${response.data.data.role}/`);
         }
         setUser(response.data.data);
@@ -65,37 +65,16 @@ export const NavbarDosen = ({ component: Component }) => {
           </a>
           <ul class="space-y-2 font-medium">
             <li>
-              <Link to={"/dosen"} class="flex items-center p-2 text-white rounded-lg hover:text-black hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              <Link to={"/sekdos/"} class="flex items-center p-2 text-white rounded-lg hover:text-black hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <svg class="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
                   <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
                   <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
                 </svg>
-                <span class="ms-3">Dashboard</span>
+                <span class="ms-3">List Mahasiswa</span>
               </Link>
             </li>
             <li>
-              <Link to={"/dosen/kelas"} class="flex items-center p-2 text-white rounded-lg hover:text-black hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                <svg
-                  class="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.024 3.783A1 1 0 0 1 6 3h12a1 1 0 0 1 .976.783L20.802 12h-4.244a1.99 1.99 0 0 0-1.824 1.205 2.978 2.978 0 0 1-5.468 0A1.991 1.991 0 0 0 7.442 12H3.198l1.826-8.217ZM3 14v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5h-4.43a4.978 4.978 0 0 1-9.14 0H3Z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-
-                <span class="ms-3">Kelas</span>
-              </Link>
-            </li>
-            <li>
-              <Link to={"/dosen/profile"} class="flex items-center p-2 text-white rounded-lg hover:text-black hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              <Link to={"/sekdos/registration"} class="flex items-center p-2 text-white rounded-lg hover:text-black hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <svg
                   class="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                   aria-hidden="true"
@@ -108,7 +87,7 @@ export const NavbarDosen = ({ component: Component }) => {
                   <path fill-rule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clip-rule="evenodd" />
                 </svg>
 
-                <span class="ms-3">Profile</span>
+                <span class="ms-3">Registrasi Dosen</span>
               </Link>
             </li>
             <li>
@@ -134,7 +113,7 @@ export const NavbarDosen = ({ component: Component }) => {
 
       <div class="p-4 sm:ml-64 bg-gray-100 min-h-screen">
         <div class="p-4 rounded-lg ">
-          <DosenBreadcrumb />
+          <SekdosBreadcrumb />
           {user && token && <Component user={user} token={token} />}
         </div>
       </div>

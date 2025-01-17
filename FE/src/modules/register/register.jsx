@@ -1,4 +1,3 @@
-// RegisterPage.jsx
 import React, { useEffect, useState } from "react";
 import { FaceModal } from "./face-modal";
 import { fetchProfile, fetchRegister } from "../../API/auth";
@@ -7,6 +6,7 @@ import { toast } from "react-toastify";
 
 export const Register = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -23,7 +23,6 @@ export const Register = () => {
     const redirect = async () => {
       try {
         const response = await fetchProfile(token);
-
         navigate(`/${response.data.data.role}/`);
       } catch (e) {
         console.log(e);
@@ -49,9 +48,10 @@ export const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!face) return toast.error("Data wajah perlu diisi");
+
+    setIsLoading(true);
     formData.face = face;
-    console.log("Form Submitted", formData);
-    // Add submission logic here
+
     try {
       const response = await fetchRegister(formData);
       toast.success(response.data.message);
@@ -64,6 +64,8 @@ export const Register = () => {
       } else {
         toast.error(e.response.data.message);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -92,36 +94,43 @@ export const Register = () => {
 
           <div className="mb-4">
             <label className="block text-gray-700">Nama</label>
-            <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded" required />
+            <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded" required disabled={isLoading} />
           </div>
 
           <div className="mb-4">
             <label className="block text-gray-700">NPM</label>
-            <input type="text" name="identity" value={formData.identity} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded" required />
+            <input type="text" name="identity" value={formData.identity} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded" required disabled={isLoading} />
           </div>
 
           <div className="mb-4">
             <label className="block text-gray-700">Password</label>
-            <input type="password" name="password" value={formData.password} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded" required />
+            <input type="password" name="password" value={formData.password} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded" required disabled={isLoading} />
           </div>
 
           <div className="mb-4">
             <label className="block text-gray-700">Telepon</label>
-            <input type="text" name="phone" value={formData.phone} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded" required />
+            <input type="text" name="phone" value={formData.phone} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded" required disabled={isLoading} />
           </div>
 
           <div className="mb-4">
             <label className="block text-gray-700">Data Wajah</label>
             {face ? <p className="my-4 text-green-600">Data wajah telah disimpan</p> : <p className="text-red-700 my-3">Belum ada data wajah.</p>}
-            <FaceModal modelsLoaded={modelIsLoaded} setFaceDescriptor={setFace} />
+            <FaceModal modelsLoaded={modelIsLoaded} setFaceDescriptor={setFace} disabled={isLoading} />
           </div>
 
-          <button type="submit" className="w-full bg-purple-700 text-white p-2 rounded hover:bg-purple-800">
-            Daftar sebagai Mahasiswa
+          <button
+            type="submit"
+            className={`w-full bg-purple-700 text-white p-2 rounded hover:bg-purple-800 transition-colors
+              ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+            disabled={isLoading}
+          >
+            {isLoading ? "Mendaftar..." : "Daftar sebagai Mahasiswa"}
           </button>
+
           <hr className="my-3 border border-purple-500 border-y-2" />
+
           <Link to={"/login"}>
-            <button type="button" className="w-full mt-3 outline outline-purple-700 text-black p-2 rounded hover:bg-purple-800 hover:text-white">
+            <button type="button" className="w-full mt-3 outline outline-purple-700 text-black p-2 rounded hover:bg-purple-800 hover:text-white" disabled={isLoading}>
               Login Jika Memiliki Akun
             </button>
           </Link>

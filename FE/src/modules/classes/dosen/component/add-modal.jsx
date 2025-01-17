@@ -5,13 +5,14 @@ import { fetchAllMajor } from "../../../../API/major";
 import { fetchAddClasses } from "../../../../API/classes";
 
 const ModalAddClasses = ({ token, setShouldRefetch }) => {
+  const currentYear = new Date().getFullYear();
   const [openModal, setOpenModal] = useState(false);
   const [formData, setFormData] = useState({
     school_year_type: "",
-    school_year_start: "",
-    school_year_end: "",
+    school_year_start: currentYear,
+    school_year_end: currentYear + 1,
     subject: "",
-    college_level: "",
+    college_level: "4", // Set default to 4
     class_number: "",
     major_id: "",
   });
@@ -22,7 +23,6 @@ const ModalAddClasses = ({ token, setShouldRefetch }) => {
     const fetch = async () => {
       try {
         const response = await fetchAllMajor(token);
-
         setMajors(response.data.data);
       } catch (e) {
         toast.error(e.response.data.message);
@@ -38,7 +38,7 @@ const ModalAddClasses = ({ token, setShouldRefetch }) => {
       school_year_start: "",
       school_year_end: "",
       subject: "",
-      college_level: "",
+      college_level: "4", // Reset to 4
       class_number: "",
       major_id: "",
     });
@@ -55,6 +55,21 @@ const ModalAddClasses = ({ token, setShouldRefetch }) => {
         toast.error("Subject tidak boleh mengandung simbol!");
         return;
       }
+    }
+
+    // School year start validation and auto-set end year
+    if (name === "school_year_start") {
+      const startYear = parseInt(value);
+      if (startYear < currentYear - 1 || startYear > currentYear) {
+        toast.error(`Tahun awal harus antara ${currentYear - 1} dan ${currentYear}`);
+        return;
+      }
+      setFormData((prev) => ({
+        ...prev,
+        school_year_start: value,
+        school_year_end: startYear ? (startYear + 1).toString() : "",
+      }));
+      return;
     }
 
     setFormData((prev) => ({
@@ -85,7 +100,6 @@ const ModalAddClasses = ({ token, setShouldRefetch }) => {
 
     try {
       const response = await fetchAddClasses(payload, token);
-
       toast.success(response.data.message);
       setShouldRefetch(true);
       handleCloseModal();
@@ -114,7 +128,7 @@ const ModalAddClasses = ({ token, setShouldRefetch }) => {
             {/* School Year Type */}
             <div className="flex flex-col">
               <label className="text-sm font-semibold">Tipe Tahun Ajaran</label>
-              <select name="school_year_type" value={formData.school_year_type} onChange={handleInputChange} className="p-2 border border-gray-300 rounded" required>
+              <select name="school_year_type" value={formData.school_year_type} onChange={handleInputChange} className="p-2 border border-gray-300 rounded" required disabled={isLoading}>
                 <option value="">Pilih Tipe Tahun Ajaran</option>
                 <option value="PTA">PTA</option>
                 <option value="ATA">ATA</option>
@@ -125,46 +139,58 @@ const ModalAddClasses = ({ token, setShouldRefetch }) => {
             <div className="flex gap-4 w-full">
               <div className="basis-1/2 w-full flex flex-col">
                 <label className="text-sm font-semibold">Tahun Awal</label>
-                <input type="number" name="school_year_start" value={formData.school_year_start} onChange={handleInputChange} className="p-2 border border-gray-300 rounded w-full" placeholder="Contoh: 2024" required />
+                <input
+                  type="number"
+                  name="school_year_start"
+                  value={formData.school_year_start}
+                  onChange={handleInputChange}
+                  min={currentYear - 1}
+                  max={currentYear}
+                  className="p-2 border border-gray-300 rounded w-full"
+                  placeholder={`Minimal ${currentYear - 1}`}
+                  required
+                  disabled={isLoading}
+                />
               </div>
               <div className="basis-1/2 w-full flex flex-col">
                 <label className="text-sm font-semibold">Tahun Akhir</label>
-                <input type="number" name="school_year_end" value={formData.school_year_end} onChange={handleInputChange} className="p-2 border border-gray-300 rounded w-full" placeholder="Contoh: 2025" required />
+                <input type="number" name="school_year_end" value={formData.school_year_end} className="p-2 border border-gray-300 rounded w-full bg-gray-100" placeholder="" required disabled={true} />
               </div>
             </div>
 
             {/* Subject */}
             <div className="flex flex-col">
               <label className="text-sm font-semibold">Mata Kuliah</label>
-              <input type="text" name="subject" value={formData.subject} onChange={handleInputChange} className="p-2 border border-gray-300 rounded" placeholder="Nama Mata Kuliah" required />
+              <input type="text" name="subject" value={formData.subject} onChange={handleInputChange} className="p-2 border border-gray-300 rounded" placeholder="Nama Mata Kuliah" required disabled={isLoading} />
             </div>
 
-            {/* College Level */}
+            {/* College Level - Fixed to 4 */}
             <div className="flex flex-col">
               <label className="text-sm font-semibold">Tingkat</label>
-              <input type="number" name="college_level" value={formData.college_level} onChange={handleInputChange} className="p-2 border border-gray-300 rounded" placeholder="Contoh: 4" required />
+              <input type="number" name="college_level" value="4" className="p-2 border border-gray-300 rounded bg-gray-100" required disabled={true} />
             </div>
 
             {/* Class Number */}
             <div className="flex flex-col">
               <label className="text-sm font-semibold">Nomor Kelas</label>
-              <input type="number" name="class_number" value={formData.class_number} onChange={handleInputChange} className="p-2 border border-gray-300 rounded" placeholder="Contoh: 02 atau 31" required />
+              <input type="number" name="class_number" value={formData.class_number} onChange={handleInputChange} className="p-2 border border-gray-300 rounded" placeholder="Contoh: 02 atau 31" required disabled={isLoading} />
             </div>
 
             {/* Major */}
             <div className="flex flex-col">
               <label className="text-sm font-semibold">Jurusan</label>
-              <select name="major_id" value={formData.major_id} onChange={handleInputChange} className="p-2 border border-gray-300 rounded" required>
+              <select name="major_id" value={formData.major_id} onChange={handleInputChange} className="p-2 border border-gray-300 rounded" required disabled={isLoading}>
                 <option value="">Pilih Jurusan</option>
                 {majors &&
-                  majors.map((major) => {
-                    return <option value={major.id}>{major.name}</option>;
-                  })}
-                {/* Add more options as needed */}
+                  majors.map((major) => (
+                    <option key={major.id} value={major.id}>
+                      {major.name}
+                    </option>
+                  ))}
               </select>
             </div>
 
-            <button type="submit" className="px-4 py-2 bg-purple-800 text-white hover:bg-purple-900 rounded" disabled={isLoading}>
+            <button type="submit" className="px-4 py-2 bg-purple-800 text-white hover:bg-purple-900 rounded disabled:opacity-50 disabled:cursor-not-allowed" disabled={isLoading}>
               {isLoading ? "Mengirim..." : "Tambah Kelas"}
             </button>
           </form>

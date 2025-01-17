@@ -1,3 +1,4 @@
+const { ROLE } = require("@prisma/client");
 const { throwError } = require("../../libs/response");
 const AuthRepository = require("./repository");
 const bcrypt = require("bcrypt");
@@ -21,9 +22,32 @@ class AuthService {
 
       let encryptedPassword = await bcrypt.hash(data.password, 10);
       data.password = encryptedPassword;
-
+      data.role = ROLE.mahasiswa;
       const user = await this.authRepo.register(data);
       await this.authRepo.createFaceDescriptor(user.id, data.face);
+
+      delete user.password;
+
+      return user;
+    } catch (e) {
+      throw e;
+    }
+  }
+  async registerDosen(data) {
+    try {
+      const [duplicateIdentity, duplicatePhone] = await this.authRepo.checkDuplicate(data.identity, data.phone);
+
+      if (duplicateIdentity) {
+        throwError(409, "Nomor Identitas sudah digunakan");
+      }
+      if (duplicatePhone) {
+        throwError(409, "Nomor telepon sudah digunakan");
+      }
+
+      let encryptedPassword = await bcrypt.hash(data.password, 10);
+      data.password = encryptedPassword;
+      data.role = ROLE.dosen;
+      const user = await this.authRepo.register(data);
 
       delete user.password;
 

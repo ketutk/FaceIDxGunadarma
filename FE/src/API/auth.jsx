@@ -5,6 +5,14 @@ export async function fetchRegister(data) {
   return await axios.post(`${URL}/auth/register`, data);
 }
 
+export async function fetchRegisterDosen(data, token) {
+  return await axios.post(`${URL}/auth/register/dosen`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
 export async function fetchLogin(data) {
   return await axios.post(`${URL}/auth/login`, data);
 }

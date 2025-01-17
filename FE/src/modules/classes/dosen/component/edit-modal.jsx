@@ -5,11 +5,12 @@ import { fetchAllMajor } from "../../../../API/major";
 import { fetchAddClasses, fetchEditClasses } from "../../../../API/classes";
 
 const ModalEditClasses = ({ token, setShouldRefetch, classToEdit }) => {
+  const currentYear = new Date().getFullYear();
   const [openModal, setOpenModal] = useState(false);
   const [formData, setFormData] = useState({
     school_year_type: "",
-    school_year_start: "",
-    school_year_end: "",
+    school_year_start: currentYear,
+    school_year_end: currentYear + 1,
     subject: "",
     college_level: "",
     class_number: "",
@@ -67,6 +68,21 @@ const ModalEditClasses = ({ token, setShouldRefetch, classToEdit }) => {
         toast.error("Subject tidak boleh mengandung simbol!");
         return;
       }
+    }
+
+    // School year start validation and auto-set end year
+    if (name === "school_year_start") {
+      const startYear = parseInt(value);
+      if (startYear < currentYear - 1 || startYear > currentYear) {
+        toast.error(`Tahun awal harus antara ${currentYear - 1} dan ${currentYear}`);
+        return;
+      }
+      setFormData((prev) => ({
+        ...prev,
+        school_year_start: value,
+        school_year_end: startYear ? (startYear + 1).toString() : "",
+      }));
+      return;
     }
 
     setFormData((prev) => ({
@@ -133,11 +149,21 @@ const ModalEditClasses = ({ token, setShouldRefetch, classToEdit }) => {
             <div className="flex gap-4 w-full">
               <div className="basis-1/2 w-full flex flex-col">
                 <label className="text-sm font-semibold">Tahun Awal</label>
-                <input type="number" name="school_year_start" value={formData.school_year_start} onChange={handleInputChange} className="p-2 border border-gray-300 rounded w-full" placeholder="Contoh: 2024" required />
+                <input
+                  type="number"
+                  name="school_year_start"
+                  min={currentYear - 1}
+                  max={currentYear}
+                  value={formData.school_year_start}
+                  onChange={handleInputChange}
+                  className="p-2 border border-gray-300 rounded w-full"
+                  placeholder="Contoh: 2024"
+                  required
+                />
               </div>
               <div className="basis-1/2 w-full flex flex-col">
                 <label className="text-sm font-semibold">Tahun Akhir</label>
-                <input type="number" name="school_year_end" value={formData.school_year_end} onChange={handleInputChange} className="p-2 border border-gray-300 rounded w-full" placeholder="Contoh: 2025" required />
+                <input type="number" name="school_year_end" value={formData.school_year_end} onChange={handleInputChange} className="p-2 border border-gray-300 rounded w-full bg-gray-100" disabled />
               </div>
             </div>
 

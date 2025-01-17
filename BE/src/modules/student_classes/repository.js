@@ -54,6 +54,12 @@ class StudentClassesRepository {
             class: {
               include: {
                 major: true,
+                lecturer: {
+                  select: {
+                    id: true,
+                    name: true,
+                  },
+                },
               },
             },
           },

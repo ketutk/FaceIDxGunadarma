@@ -18,6 +18,11 @@ import { NavbarDosen } from "./templates/navbar-dosen";
 import { DosenClasses } from "./modules/classes/dosen/dosen-classes";
 import { DosenDetailClasses } from "./modules/classes/dosen/dosen-detail-class";
 import { DosenClassesMeet } from "./modules/classes/dosen/dosen-meet";
+import { NavbarSekdos } from "./templates/navbar-sekdos";
+import Mahasiswa from "./modules/sekdos/mahasiswa/mahasiswa";
+import DetailMahasiswa from "./modules/sekdos/mahasiswa/detail-mahasiswa";
+import DetailKelasMahasiswa from "./modules/sekdos/mahasiswa/detail-kelas-mahasiswa";
+import DosenRegistration from "./modules/sekdos/register-dosen/dosen-registration";
 
 export default function App() {
   initFlowbite();
@@ -41,6 +46,12 @@ export default function App() {
           <Route path="/dosen/kelas/:id" element={<NavbarDosen component={DosenDetailClasses} />} />
           <Route path="/dosen/kelas/:id/:idp" element={<NavbarDosen component={DosenClassesMeet} />} />
           <Route path="/dosen/profile" element={<NavbarDosen component={Profile} />} />
+
+          {/* Sekdos */}
+          <Route path="/sekdos/" element={<NavbarSekdos component={Mahasiswa} />} />
+          <Route path="/sekdos/mahasiswa/:id" element={<NavbarSekdos component={DetailMahasiswa} />} />
+          <Route path="/sekdos/mahasiswa/:id/:class_id" element={<NavbarSekdos component={DetailKelasMahasiswa} />} />
+          <Route path="/sekdos/registration" element={<NavbarSekdos component={DosenRegistration} />} />
 
           <Route path="/*" element={<NotFound />} />
         </Routes>

@@ -1,7 +1,10 @@
 const z = require("zod");
-const { isNumericWord } = require("../../libs/regex");
+const { isNumericWord, isAlphaOnly } = require("../../libs/regex");
 exports.registerSchema = z.object({
-  name: z.string().min(1, { message: "Nama minimal terdiri dari 1 karakter" }),
+  name: z
+    .string()
+    .min(1, { message: "Nama minimal terdiri dari 1 karakter" })
+    .refine((e) => isAlphaOnly(e), { message: "Nama hanya boleh mengandung alfabet" }),
   identity: z
     .string()
     .min(8, { message: "NPM minimal mengandung 8 angka" })
@@ -18,6 +21,28 @@ exports.registerSchema = z.object({
     }),
   password: z.string().min(8, { message: "Password minimal terdiri dari 8 karakter" }),
   face: z.any(),
+});
+
+exports.registerDosenSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "Nama minimal terdiri dari 1 karakter" })
+    .refine((e) => isAlphaOnly(e), { message: "Nama hanya boleh mengandung alfabet" }),
+  identity: z
+    .string()
+    .min(10, { message: "Nomor Identitas minimal mengandung 10 angka" })
+    .max(10, { message: "Nomor Identitas maksimal mengandung 10 angka" })
+    .refine((e) => isNumericWord(e), {
+      message: "Nomor Identitas hanya bisa mengandung angka",
+    }),
+  phone: z
+    .string()
+    .min(10, { message: "Nomor Telepon minimal memiliki 10 digit angka" })
+    .max(13, { message: "Nomor Telepon maksimal memiliki 13 digit angka" })
+    .refine((e) => isNumericWord(e), {
+      message: "Nomor Telepon hanya bisa mengandung angka",
+    }),
+  password: z.string().min(8, { message: "Password minimal terdiri dari 8 karakter" }),
 });
 
 exports.changePasswordSchema = z.object({

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, redirect, useNavigate } from "react-router-dom";
 import { fetchProfile } from "../API/auth";
-import Breadcrumb from "./breadcrumbs";
+import { initFlowbite } from "flowbite";
+import { MahasiswaBreadcrumb } from "./breadcrumbs";
 
 export const NavbarMahasiswa = ({ component: Component }) => {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ export const NavbarMahasiswa = ({ component: Component }) => {
       }
     };
     fetch();
+    initFlowbite();
   }, []);
 
   async function handleLogout() {
@@ -132,7 +134,7 @@ export const NavbarMahasiswa = ({ component: Component }) => {
 
       <div class="p-4 sm:ml-64 bg-gray-100 min-h-screen">
         <div class="p-4 rounded-lg ">
-          <Breadcrumb />
+          <MahasiswaBreadcrumb />
           {user && token && <Component user={user} token={token} />}
         </div>
       </div>

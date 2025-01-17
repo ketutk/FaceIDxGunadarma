@@ -27,7 +27,7 @@ class AuthRepository {
           name: data.name,
           phone: data.phone,
           password: data.password,
-          role: ROLE.mahasiswa,
+          role: data.role,
         },
       });
     });
