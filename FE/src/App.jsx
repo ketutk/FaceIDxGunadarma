@@ -23,6 +23,7 @@ import Mahasiswa from "./modules/sekdos/mahasiswa/mahasiswa";
 import DetailMahasiswa from "./modules/sekdos/mahasiswa/detail-mahasiswa";
 import DetailKelasMahasiswa from "./modules/sekdos/mahasiswa/detail-kelas-mahasiswa";
 import DosenRegistration from "./modules/sekdos/register-dosen/dosen-registration";
+import Home from "./modules/home/home";
 
 export default function App() {
   initFlowbite();
@@ -31,6 +32,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           {/* Global */}
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 

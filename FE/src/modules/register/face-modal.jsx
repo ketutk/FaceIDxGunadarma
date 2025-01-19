@@ -216,28 +216,27 @@ export function FaceModal({ setFaceDescriptor }) {
       <Modal show={openModal} onClose={handleCloseModal} size="6xl">
         <Modal.Header>Deteksi Wajah</Modal.Header>
         <Modal.Body>
-          <div className="flex flex-col md:flex-row h-96">
+          <div className="flex flex-col md:flex-row md:justify-center h-96">
             <div className="md:basis-1/2 mb-10">
               <div className="relative w-full min-h-52 max-h-96">
                 <video ref={videoRef} autoPlay className="top-0 left-0 w-full invisible" />
                 <canvas ref={canvasRef} className="absolute top-0 left-0 w-full bg-black" />
               </div>
             </div>
-            <div className="md:basis-1/2 w-full flex flex-col justify-center items-center gap-y-4">
-              {isLoading ? (
-                <>
-                  <p className="text-center text-green-500 font-bold">Memproses...</p>
-                </>
-              ) : (
-                <>
-                  {error && <p className="text-center text-red-500 font-bold">{error}</p>}
-                  {!success && !error && <p className="text-center">Wajah akan otomatis terdeteksi ketika ada pergerakan.</p>}
-                </>
-              )}
-            </div>
           </div>
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
+        <Modal.Footer className="flex justify-center">
+          {isLoading ? (
+            <>
+              <p className="text-center text-green-500 font-bold">Memproses...</p>
+            </>
+          ) : (
+            <>
+              {error && <p className="text-center text-red-500 font-bold">{error}</p>}
+              {!success && !error && <p className="text-center">Wajah akan otomatis terdeteksi ketika ada pergerakan.</p>}
+            </>
+          )}
+        </Modal.Footer>
       </Modal>
     </>
   );

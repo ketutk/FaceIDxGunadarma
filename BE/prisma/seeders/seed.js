@@ -5,11 +5,15 @@ const { ClassesSeeders } = require("./classes.seeders");
 const { MyClassesSeeders } = require("./myclasses.seeders");
 const { ClassesMeetSeeders } = require("./studentmeets.seeders");
 const { StudentPresencesSeeders } = require("./studentpresences.seeders");
+const { mongoClient } = require("../../src/config/mongo.config");
 const prisma = new PrismaClient();
 
 async function main() {
-  await reset();
+  const [client, db] = await mongoClient();
+  await db.collection("faces").deleteMany({});
+  await client.close();
 
+  await reset();
   const createUser = await UsersSeeder(prisma);
   const createMajor = await MajorsSeeders(prisma);
 
