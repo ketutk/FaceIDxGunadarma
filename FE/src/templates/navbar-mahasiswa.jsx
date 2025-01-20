@@ -3,6 +3,7 @@ import { Link, redirect, useNavigate } from "react-router-dom";
 import { fetchProfile } from "../API/auth";
 import { initFlowbite } from "flowbite";
 import { MahasiswaBreadcrumb } from "./breadcrumbs";
+import navbar from "../assets/navbar.png";
 
 export const NavbarMahasiswa = ({ component: Component }) => {
   const navigate = useNavigate();
@@ -59,10 +60,9 @@ export const NavbarMahasiswa = ({ component: Component }) => {
 
       <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto bg-gradient-to-b from-purple-900 to-purple-700">
-          <a href="https://flowbite.com/" class="flex items-center ps-2.5 mb-20">
-            {/* <img src="https://flowbite.com/docs/images/logo.svg" class="h-6 me-3 sm:h-7" alt="Flowbite Logo" /> */}
-            <span class="self-center text-3xl font-semibold whitespace-nowrap text-white">FaceID</span>
-          </a>
+          <Link to={"/"} class="flex items-center ps-2.5 mb-20">
+            <img src={navbar} class="w-full object-cover" alt="Flowbite Logo" />
+          </Link>
           <ul class="space-y-2 font-medium">
             <li>
               <Link to={"/mahasiswa"} class="flex items-center p-2 text-white rounded-lg hover:text-black hover:bg-gray-100 dark:hover:bg-gray-700 group">

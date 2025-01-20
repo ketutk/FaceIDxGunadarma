@@ -107,7 +107,7 @@ const Home = () => {
         /* Custom scrollbar styling */
         .overflow-x-auto {
           scrollbar-width: thin;
-          scrollbar-color: rgba(107, 33, 168, 0.5) transparent;
+          scrollbar-color: rgba(255, 255, 255, 0.5) transparent;
         }
 
         .overflow-x-auto::-webkit-scrollbar {
@@ -119,7 +119,7 @@ const Home = () => {
         }
 
         .overflow-x-auto::-webkit-scrollbar-thumb {
-          background-color: rgba(107, 33, 168, 0.5);
+          background-color: rgba(255, 255, 255, 0.5);
           border-radius: 6px;
         }
       `}</style>

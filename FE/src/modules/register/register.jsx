@@ -3,6 +3,8 @@ import { FaceModal } from "./face-modal";
 import { fetchProfile, fetchRegister } from "../../API/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import faceid from "../../assets/faceid.png";
+import logo from "../../assets/logo.png";
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -82,9 +84,10 @@ export const Register = () => {
   return (
     <div className="flex min-h-screen">
       {/* Left Section */}
-      <div className="basis-1/2 md:flex hidden bg-gradient-to-br from-purple-700 to-purple-900 flex-col items-center justify-center gap-y-10">
-        <h1 className="text-white text-5xl font-bold">FaceID</h1>
-        <h1 className="text-white text-4xl font-bold">Welcome to Registration</h1>
+      <div className="basis-1/2 md:flex hidden bg-gradient-to-br from-purple-700 to-purple-900 flex-col items-center justify-center gap-y-4">
+        <img src={faceid} alt="Logo faceid" className="w-80 object-cover" />
+        <h1 className="text-white text-4xl font-bold">Gunadarma's College Project</h1>
+        <img src={logo} alt="Logo gunadarma" className="w-80 object-cover opacity-40" />
       </div>
 
       {/* Right Section - Form */}
@@ -132,6 +135,15 @@ export const Register = () => {
           <Link to={"/login"}>
             <button type="button" className="w-full mt-3 outline outline-purple-700 text-black p-2 rounded hover:bg-purple-800 hover:text-white" disabled={isLoading}>
               Login Jika Memiliki Akun
+            </button>
+          </Link>
+          <Link to={"/"}>
+            <button
+              type="button"
+              className="w-full mt-3 outline outline-purple-700 text-black p-2 rounded hover:bg-purple-800 hover:text-white disabled:bg-gray-200 disabled:cursor-not-allowed disabled:outline-gray-400 disabled:text-gray-600"
+              disabled={isLoading}
+            >
+              Kembali ke Home
             </button>
           </Link>
         </form>
