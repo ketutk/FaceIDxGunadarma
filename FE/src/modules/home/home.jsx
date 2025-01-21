@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import ketut from "../../assets/ketut.png";
+import vito from "../../assets/vito.png";
+import caca from "../../assets/caca.png";
+import arva from "../../assets/arva.png";
+import samuel from "../../assets/samuel.png";
 import { useState } from "react";
 
 const Home = () => {
@@ -8,34 +12,34 @@ const Home = () => {
 
   const teamMembers = [
     {
-      name: "John Doe",
-      role: "Team Leader",
-      npm: "51420XXX",
-      image: "/api/placeholder/150/150", // placeholder image
+      name: "Shabrina Nazla Sujaya",
+      role: "Project Manager",
+      npm: "11121206",
+      image: caca,
     },
     {
-      name: "Jane Smith",
-      role: "Backend Developer",
-      npm: "51420XXX",
-      image: "/api/placeholder/150/150",
+      name: "Septian Indra Vito",
+      role: "Design System",
+      npm: "11121200",
+      image: vito,
     },
     {
-      name: "Mike Johnson",
-      role: "Frontend Developer",
-      npm: "51420XXX",
-      image: "/api/placeholder/150/150",
+      name: "I Ketut Krisna Kertajaya",
+      role: "Developer",
+      npm: "10121571",
+      image: ketut, // placeholder image
     },
     {
-      name: "Sarah Williams",
-      role: "UI/UX Designer",
-      npm: "51420XXX",
-      image: "/api/placeholder/150/150",
+      name: "Samuel Alexander",
+      role: "Quality Assurance",
+      npm: "11121182",
+      image: samuel,
     },
     {
-      name: "Sarah Williams",
-      role: "UI/UX Designer",
-      npm: "51420XXX",
-      image: "/api/placeholder/150/150",
+      name: "Rizky Arva Ardana",
+      role: "Dokumentasi",
+      npm: "11121148",
+      image: arva,
     },
   ];
 
@@ -71,7 +75,7 @@ const Home = () => {
             <div className="flex overflow-x-auto gap-6 pb-4 snap-x snap-mandatory">
               {teamMembers.map((member, index) => (
                 <div key={index} className="flex-shrink-0 snap-center w-72 bg-white rounded-lg shadow-xl overflow-hidden">
-                  <img src={ketut} alt={member.name} className="w-full h-56 object-cover" />
+                  <img src={member.image} alt={member.name} className="w-full h-56 object-cover" />
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-gray-800">{member.name}</h3>
                     <p className="text-purple-600 font-semibold">{member.role}</p>

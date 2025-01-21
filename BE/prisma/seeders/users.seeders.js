@@ -10,9 +10,9 @@ exports.UsersSeeder = async (prisma) => {
   return new Promise(async (resolve, reject) => {
     const datas = [
       {
-        identity: "10121571",
-        name: "I Ketut Krisna Kertajaya",
-        phone: "081314206253",
+        identity: "999",
+        name: "Murid",
+        phone: "081999999999",
         password: bcrypt.hashSync("tes123", 10),
         role: ROLE.mahasiswa,
       },
