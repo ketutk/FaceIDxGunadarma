@@ -51,7 +51,7 @@ const Home = () => {
         {!isTeamSection && (
           <div className="px-6 py-20 bg-black bg-opacity-30 flex flex-col gap-y-4 z-50 mx-4 overflow-x-hidden">
             <h1 className="font-bold text-3xl text-white text-center lg:transform-none animate-marquee lg:animate-none whitespace-nowrap">KAMI MENGUCAPKAN SELAMAT DATANG DI PROJECT KULIAH KAMI</h1>
-            <h2 className="font-bold text-3xl text-white text-center">FACEID X GUNADARMA</h2>
+            <h2 className="font-bold text-3xl text-white text-center">KOMUG X GUNADARMA</h2>
             <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-6">
               <Link to={"/login"}>
                 <button className="px-4 py-2 outline outline-white text-center rounded hover:bg-purple-600 text-white text-2xl font-bold">LOGIN KE WEBSITE</button>

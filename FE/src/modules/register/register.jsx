@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import faceid from "../../assets/faceid.png";
 import logo from "../../assets/logo.png";
+import welcome from "../../assets/welcome.png";
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -85,14 +86,21 @@ export const Register = () => {
     <div className="flex min-h-screen">
       {/* Left Section */}
       <div className="basis-1/2 md:flex hidden bg-gradient-to-br from-purple-700 to-purple-900 flex-col items-center justify-center gap-y-4">
-        <img src={faceid} alt="Logo faceid" className="w-80 object-cover" />
-        <h1 className="text-white text-4xl font-bold">Gunadarma's College Project</h1>
-        <img src={logo} alt="Logo gunadarma" className="w-80 object-cover opacity-40" />
+        <div className="flex flex-col justify-center items-center mt-[-20%]">
+          <img src={logo} alt="Logo gunadarma" className="w-80 object-cover opacity-60" />
+          <img src={faceid} alt="Logo faceid" className="w-[35rem] object-cover" />
+          <h1 className="text-gray-300 text-3xl font-medium mt-[-40px] text-center">Ngga pake ribet, cek hadir auto cepet!</h1>
+        </div>
       </div>
 
       {/* Right Section - Form */}
       <div className="basis-full md:basis-1/2 bg-white flex flex-col items-center justify-center">
         <form onSubmit={handleSubmit} className="w-full max-w-md p-8">
+          <div className="flex justify-center">
+            <Link to={"/"}>
+              <img src={welcome} alt="Logo faceid" className="w-80 object-cover md:hidden" />
+            </Link>
+          </div>
           <h2 className="text-2xl font-semibold text-purple-700 mb-6">Daftar</h2>
 
           <div className="mb-4">

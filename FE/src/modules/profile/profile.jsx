@@ -53,7 +53,7 @@ export const Profile = ({ user, token }) => {
           <div className="basis-1/2 border border-gray-200 bg-white p-6">
             <h1 className="font-light text-2xl mb-3">Profile</h1>
             <div className="mb-4">
-              <label className="block text-gray-700">{user.role == "mahasiswa" ? "NPM" : "NIDN"}</label>
+              <label className="block text-gray-700">{user.role == "mahasiswa" ? "NPM" : "NIP"}</label>
               <input type="text" name="identity" className="w-full p-2 border border-gray-300 rounded" disabled value={user?.identity} />
             </div>
             <div className="mb-4">

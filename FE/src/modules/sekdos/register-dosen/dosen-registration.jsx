@@ -57,7 +57,7 @@ const DosenRegistration = ({ user, token }) => {
         <h2 className="text-2xl font-semibold text-purple-700 mb-6">Daftar Dosen</h2>
 
         <div className="mb-4">
-          <label className="block text-gray-700">NIDN</label>
+          <label className="block text-gray-700">NIP</label>
           <input type="text" name="identity" className="w-full p-2 border border-gray-300 rounded" value={formData.identity} onChange={handleChange} required disabled={isLoading} />
         </div>
 
