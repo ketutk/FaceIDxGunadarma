@@ -14,6 +14,14 @@ exports.UsersSeeder = async (prisma, major) => {
     // Manually input the CSV data into the `datas` variable
     const datas = [
       {
+        identity: "2571393831",
+        name: "Sekretariat Dosen",
+        phone: "082260417027",
+        password: bcrypt.hashSync(PASSWORD_SEED, 10),
+        role: ROLE.sekdos,
+        classes: null,
+      },
+      {
         identity: "4881825921",
         name: "DEA ADLINA",
         phone: "080555542630",
@@ -409,26 +417,26 @@ exports.UsersSeeder = async (prisma, major) => {
 
       for await (const data of datas) {
         // Generate the class names dynamically
-        const classesWithNames = data.classes.createMany.data.map((classData) => {
-          return {
-            ...classData,
-            name: `${classData.school_year_type} ${classData.school_year} ${classData.college_level}${major.major_code}${classData.class_number} ${classData.subject}`,
-          };
-        });
+        const classesWithNames =
+          data.classes &&
+          data.classes.createMany.data.map((classData) => {
+            return {
+              ...classData,
+              name: `${classData.school_year_type} ${classData.school_year} ${classData.college_level}${major.major_code}${classData.class_number} ${classData.subject}`,
+            };
+          });
 
+        const resultData = {
+          identity: data.identity,
+          name: data.name,
+          phone: data.phone,
+          password: data.password,
+          role: data.role,
+        };
+
+        if (classesWithNames) resultData.classes = { createMany: { data: classesWithNames } };
         const result = await prisma.user.create({
-          data: {
-            identity: data.identity,
-            name: data.name,
-            phone: data.phone,
-            password: data.password,
-            role: data.role,
-            classes: {
-              createMany: {
-                data: classesWithNames,
-              },
-            },
-          },
+          data: resultData,
         });
 
         results.push(result);
