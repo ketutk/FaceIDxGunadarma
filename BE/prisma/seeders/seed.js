@@ -14,13 +14,8 @@ async function main() {
   await client.close();
 
   await reset();
-  const createUser = await UsersSeeder(prisma);
   const createMajor = await MajorsSeeders(prisma);
-
-  const createClasses = await ClassesSeeders(prisma, createMajor, createUser);
-  const classMeets = await ClassesMeetSeeders(prisma, createClasses);
-  const studentClasses = await MyClassesSeeders(prisma, createUser, createClasses);
-  await StudentPresencesSeeders(prisma, studentClasses, classMeets);
+  const createUser = await UsersSeeder(prisma, createMajor);
 }
 
 async function reset() {
